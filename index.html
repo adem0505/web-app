@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gmail Auth</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        button { 
+            background: #0088cc; 
+            color: white; 
+            border: none; 
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Gmail Authorization</h2>
+    <p>Click below to connect your Gmail account</p>
+    <button id="authButton">Authorize with Google</button>
+
+    <script>
+        // Get user ID from Telegram
+        const userId = Telegram.WebApp.initDataUnsafe.user?.id;
+        
+        document.getElementById('authButton').addEventListener('click', () => {
+            const clientId = 'YOUR_GOOGLE_CLIENT_ID'; // Replace
+            const redirectUri = 'https://YOUR_GITHUB_USERNAME.github.io/gmail-bot-webapp/callback.html'; // Replace
+            const scope = 'https://www.googleapis.com/auth/gmail.modify';
+            
+            const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
+                `client_id=${clientId}&` +
+                `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+                `response_type=code&` +
+                `scope=${encodeURIComponent(scope)}&` +
+                `state=${userId}&` +
+                `access_type=offline&` +
+                `prompt=consent`;
+            
+            window.open(authUrl, '_blank');
+        });
+    </script>
+</body>
+</html>
