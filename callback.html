@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        // Extract authorization code from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const state = urlParams.get('state'); // user_id
+        
+        if (code && state) {
+            // Send data back to Telegram bot
+            Telegram.WebApp.sendData(JSON.stringify({
+                code: code,
+                user_id: state
+            }));
+            
+            // Close the web app
+            setTimeout(() => {
+                Telegram.WebApp.close();
+            }, 1000);
+        }
+    </script>
+</head>
+<body>
+    <p>Authorization complete. You can close this window.</p>
+</body>
+</html>
